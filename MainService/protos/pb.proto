@@ -7,6 +7,9 @@ service Manga {
   rpc Channel1 (CallbackRequest) returns (CallbackReply) {}
 }
 
+service Novel {
+  rpc Channel1 (CallbackRequest) returns (CallbackReply) {}
+}
 
 // The request message containing the user's name.
 message CallbackRequest {

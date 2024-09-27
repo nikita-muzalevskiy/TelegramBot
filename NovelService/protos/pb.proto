@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package manga;
+
+option go_package = "NovelService/protos;pb";
+
+// The greeting service definition.
+service Novel {
+  rpc Channel1 (CallbackRequest) returns (CallbackReply) {}
+}
+
+
+// The request message containing the user's name.
+message CallbackRequest {
+  string user = 1;
+  string action = 2;
+  string param = 3;
+}
+
+// The request message containing the user's name.
+message CallbackReply {
+  string text = 1;
+  repeated Button buttons = 2;
+}
+
+message Button{
+  string text = 1;
+  string data = 2;
+}

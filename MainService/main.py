@@ -11,15 +11,16 @@ import grpc
 import pb_pb2
 import pb_pb2_grpc
 import os
+import sys
 from dotenv import load_dotenv, dotenv_values
-
 
 load_dotenv("variables.env")
 bot = AsyncTeleBot(os.getenv("TOKEN"))
 
 services = {
-    "MANGA": pb_pb2_grpc.MangaStub(grpc.insecure_channel(os.getenv("HOST"))).Channel1
+    "MANGA": pb_pb2_grpc.MangaStub(grpc.insecure_channel(os.getenv("HOST_MANGA"))).Channel1,
     # "TESTS": pb_pb2_grpc.TestsStub(grpc.insecure_channel("localhost:50050")),
+    "NOVEL": pb_pb2_grpc.NovelStub(grpc.insecure_channel(os.getenv("HOST_NOVEL"))).Channel1
 }
 
 async def CallbackToMessage(call):
@@ -39,7 +40,8 @@ async def start(message):
 async def menu(message):
     keyboard = types.InlineKeyboardMarkup(row_width=2)
     buttons = [types.InlineKeyboardButton(text='Манга', callback_data=f"{message.from_user.id}/MANGA/menu/"),
-               # types.InlineKeyboardButton(text='Тесты', callback_data=f"{message.from_user.id}/TESTS/to-tests-section/")
+               # types.InlineKeyboardButton(text='Тесты', callback_data=f"{message.from_user.id}/TESTS/menu/"),
+               types.InlineKeyboardButton(text='Новеллы', callback_data=f"{message.from_user.id}/NOVEL/menu/")
                ]
     keyboard.add(*buttons)
     await bot.send_message(message.from_user.id, "Ты в меню! Выбери раздел:", reply_markup=keyboard)
